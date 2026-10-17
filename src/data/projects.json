@@ -1,5 +1,29 @@
 [
   {
+    "title": "typeaside",
+    "description": "Voice dictation for any app on macOS, Windows, and Linux, with AI cleanup and voice editing.",
+    "role": "creator",
+    "period": "mar 2026 - present",
+    "href": "https://typeaside.app/",
+    "technologies": ["rust", "gpui", "speech-to-text", "convex", "tanstack-start"],
+    "achievements": [
+      "hold a key to dictate into any text field, with AI cleanup and voice editing",
+      "hosted transcription or your own API key, with dictionary, snippets, and history stored locally"
+    ]
+  },
+  {
+    "title": "docshift",
+    "description": "Browser-based tools for PDFs, images, video, and audio, with files processed locally.",
+    "role": "creator",
+    "period": "oct 2026 - present",
+    "href": "https://docshift.app/",
+    "technologies": ["typescript", "file-processing", "privacy", "tanstack-start", "cloudflare"],
+    "achievements": [
+      "process files in the browser without uploading them to a server",
+      "free tools with no account, daily limits, or watermarks"
+    ]
+  },
+  {
     "title": "zolk",
     "description": "The personal operator that keeps your tools, tasks, and conversations moving in one thread.",
     "role": "creator",
@@ -68,18 +92,6 @@
     "achievements": [
       "high-level codebase maps for unfamiliar smart contract repos",
       "issue-oriented prompts tuned for security review workflows"
-    ]
-  },
-  {
-    "title": "image compressor",
-    "description": "An in-browser image compressor and resizer.",
-    "role": "creator",
-    "period": "aug 2024",
-    "href": "https://image-compressor-mauve.vercel.app/",
-    "technologies": ["javascript", "web", "image-processing", "compression"],
-    "achievements": [
-      "client-side compression without server round-trips",
-      "simple resize and quality controls for quick exports"
     ]
   }
 ]

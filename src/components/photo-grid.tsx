@@ -81,11 +81,21 @@ export default function PhotoGrid({ images, heroImage, categoryName = "Photo" }:
           )}
 
           {showHero && (
-            <>
-              <div
-                className="group relative mb-12 w-full cursor-pointer overflow-hidden rounded-sm lg:hidden"
-                onClick={() => setLightboxIndex(0)}
-              >
+            <div
+              className="group relative mb-12 w-full cursor-pointer overflow-hidden rounded-sm lg:aspect-[21/9]"
+              onClick={() => setLightboxIndex(0)}
+            >
+              {/* One <picture> instead of two CSS-toggled <img>s: hidden imgs still download. */}
+              <picture>
+                <source
+                  media="(min-width: 1024px)"
+                  srcSet={getOptimizedCloudinaryUrl(heroImage.img, {
+                    width: 2000,
+                    quality: "auto",
+                    format: "auto",
+                    crop: "fill",
+                  })}
+                />
                 <img
                   src={getOptimizedCloudinaryUrl(heroImage.img, {
                     width: 1200,
@@ -96,31 +106,11 @@ export default function PhotoGrid({ images, heroImage, categoryName = "Photo" }:
                   alt={heroImage.description || heroImage.title || "Featured photo"}
                   width={heroImage.width ?? 1200}
                   height={heroImage.height ?? 900}
-                  className="w-full h-auto object-cover shadow-sm transition-transform duration-300 ease group-hover:scale-[1.015]"
-                  sizes="100vw"
+                  className="w-full h-auto object-cover shadow-sm transition-transform duration-300 ease group-hover:scale-[1.015] lg:absolute lg:inset-0 lg:size-full"
                   fetchPriority="high"
                 />
-              </div>
-              <div
-                className="group relative mb-12 hidden aspect-[21/9] w-full cursor-pointer overflow-hidden rounded-sm lg:block"
-                onClick={() => setLightboxIndex(0)}
-              >
-                <img
-                  src={getOptimizedCloudinaryUrl(heroImage.img, {
-                    width: 2000,
-                    quality: "auto",
-                    format: "auto",
-                    crop: "fill",
-                  })}
-                  alt={heroImage.description || heroImage.title || "Featured photo"}
-                  width={heroImage.width ?? 2000}
-                  height={heroImage.height ?? 857}
-                  className="absolute inset-0 size-full object-cover shadow-sm transition-transform duration-300 ease group-hover:scale-[1.015]"
-                  sizes="100vw"
-                  fetchPriority="high"
-                />
-              </div>
-            </>
+              </picture>
+            </div>
           )}
 
           <div className="columns-1 gap-4 sm:columns-2 lg:columns-3 xl:columns-4">

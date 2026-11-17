@@ -77,7 +77,7 @@ function Home() {
             <img
               src="/profile.webp"
               srcSet="/profile-480.webp 480w, /profile-800.webp 800w, /profile-1080.webp 1080w, /profile.webp 1280w"
-              sizes="(min-width: 1024px) 380px, 100vw"
+              sizes="(min-width: 1024px) 380px, (min-width: 768px) calc(100vw - 8rem), calc(100vw - 2rem)"
               alt="Aditya Miskin"
               width={1280}
               height={1280}

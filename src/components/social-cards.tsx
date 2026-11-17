@@ -391,9 +391,9 @@ export function ResumeCard({
   const previewSrc = getResumePreviewUrl(href);
   const [imgFailed, setImgFailed] = useState(false);
 
-  // Prefetch as soon as the link is on the page (not only on hover)
+  // Prefetch as soon as the link is on the page; touch devices never open the hover card
   useEffect(() => {
-    if (!previewSrc) return;
+    if (!previewSrc || !window.matchMedia("(hover: hover)").matches) return;
     void prefetchResumePreview(previewSrc);
   }, [previewSrc]);
 

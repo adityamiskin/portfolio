@@ -32,6 +32,8 @@ export const Route = createFileRoute("/")({
                 href: resumePreview,
                 // low so it doesn't fight the profile photo LCP
                 fetchPriority: "low" as const,
+                // touch devices can't hover the card, so don't spend their bandwidth on it
+                media: "(hover: hover)",
               },
             ]
           : []),
@@ -74,7 +76,7 @@ function Home() {
           <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden rounded-md border border-border shadow-xs lg:aspect-auto lg:h-[min(380px,52vh)] lg:w-[min(380px,42%)] lg:max-w-md">
             <img
               src="/profile.webp"
-              srcSet="/profile-480.webp 480w, /profile-800.webp 800w, /profile.webp 1280w"
+              srcSet="/profile-480.webp 480w, /profile-800.webp 800w, /profile-1080.webp 1080w, /profile.webp 1280w"
               sizes="(min-width: 1024px) 380px, 100vw"
               alt="Aditya Miskin"
               width={1280}

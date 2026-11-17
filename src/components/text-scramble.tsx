@@ -1,82 +1,51 @@
-"use client";
-import { type JSX, useEffect, useState } from "react";
-import { motion, MotionProps } from "motion/react";
+import { type ElementType, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
-export type TextScrambleProps = {
-  children: string;
-  duration?: number;
-  speed?: number;
-  characterSet?: string;
-  as?: React.ElementType;
-  className?: string;
-  trigger?: boolean;
-  onScrambleComplete?: () => void;
-} & MotionProps;
-
-const defaultChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const DURATION_MS = 800;
+const TICK_MS = 40;
 
 export function TextScramble({
-  children,
-  duration = 0.8,
-  speed = 0.04,
-  characterSet = defaultChars,
-  className,
+  children: text,
   as: Component = "p",
-  trigger = true,
-  onScrambleComplete,
-  ...props
-}: TextScrambleProps) {
-  const MotionComponent = motion.create(Component as keyof JSX.IntrinsicElements);
-  const [scrambledText, setScrambledText] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const text = children;
-  const displayText = scrambledText ?? children;
-
-  const scramble = async () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-
-    const steps = duration / speed;
-    let step = 0;
-
-    const interval = setInterval(() => {
-      let scrambled = "";
-      const progress = step / steps;
-
-      for (let i = 0; i < text.length; i++) {
-        if (text[i] === " ") {
-          scrambled += " ";
-          continue;
-        }
-
-        if (progress * text.length > i) {
-          scrambled += text[i];
-        } else {
-          scrambled += characterSet[Math.floor(Math.random() * characterSet.length)];
-        }
-      }
-
-      setScrambledText(scrambled);
-      step++;
-
-      if (step > steps) {
-        clearInterval(interval);
-        setScrambledText(null);
-        setIsAnimating(false);
-        onScrambleComplete?.();
-      }
-    }, speed * 1000);
-  };
+  className,
+}: {
+  children: string;
+  as?: ElementType;
+  className?: string;
+}) {
+  const [scrambled, setScrambled] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!trigger) return;
+    const steps = DURATION_MS / TICK_MS;
+    let step = 0;
+    const interval = setInterval(() => {
+      const revealed = (step / steps) * text.length;
+      setScrambled(
+        [...text]
+          .map((ch, i) =>
+            ch === " " || i < revealed ? ch : CHARS[Math.floor(Math.random() * CHARS.length)],
+          )
+          .join(""),
+      );
+      if (++step > steps) {
+        clearInterval(interval);
+        setScrambled(null);
+      }
+    }, TICK_MS);
+    return () => clearInterval(interval);
+  }, [text]);
 
-    void scramble();
-  }, [trigger]);
-
+  // The real text always holds the layout (and stays readable to screen readers); random
+  // glyphs have different widths, and letting them reflow made the hero wrap/unwrap on mobile.
   return (
-    <MotionComponent className={className} {...props}>
-      {displayText}
-    </MotionComponent>
+    <Component className={cn("relative inline-block", className)}>
+      <span className={scrambled === null ? undefined : "text-transparent"}>{text}</span>
+      {scrambled === null ? null : (
+        <span aria-hidden className="absolute inset-0 overflow-hidden whitespace-nowrap">
+          {scrambled}
+        </span>
+      )}
+    </Component>
   );
 }

@@ -61,7 +61,7 @@ export const Navbar = () => {
   return (
     <nav aria-label="Primary">
       <div className="border-b border-border/50 pb-6 mb-12">
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex min-h-8 items-center justify-between gap-3">
           <div className="flex min-w-0 flex-1 items-center gap-3 overflow-x-auto text-foreground text-sm md:gap-4">
             <div className="flex shrink-0 items-center gap-3 whitespace-nowrap md:gap-4">
               {NAV_ITEMS.map(({ href, label, key, shortcutTitle }) => (

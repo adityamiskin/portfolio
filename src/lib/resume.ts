@@ -9,7 +9,8 @@ function driveFileId(url: string): string | null {
 export function getResumePreviewUrl(resumeUrl = portfolio.resumeUrl): string | null {
   if (!resumeUrl) return null;
   const fileId = driveFileId(resumeUrl);
-  return fileId ? `https://lh3.googleusercontent.com/d/${fileId}=w720` : null;
+  // 2x the 13.5rem popup; "-rw" asks Google for WebP instead of PNG
+  return fileId ? `https://lh3.googleusercontent.com/d/${fileId}=w432-rw` : null;
 }
 
 let resumePrefetchPromise: Promise<void> | null = null;

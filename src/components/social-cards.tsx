@@ -110,7 +110,7 @@ function CardHead({
   sub,
   icon: Icon,
   iconClassName,
-  avatar = "/profile.webp",
+  avatar = "/profile-480.webp",
 }: {
   name: string;
   sub: string;
@@ -193,7 +193,7 @@ export function XCard({
         <div className="overflow-hidden">
           <div className="relative h-16 overflow-hidden bg-muted">
             <img
-              src={data.banner || "/profile.webp"}
+              src={data.banner || "/profile-480.webp"}
               alt=""
               width={1500}
               height={500}
@@ -203,7 +203,7 @@ export function XCard({
           </div>
           <div className="relative px-3 pt-7 pb-3">
             <img
-              src={data.avatar || "/profile.webp"}
+              src={data.avatar || "/profile-480.webp"}
               alt=""
               width={48}
               height={48}
@@ -258,7 +258,7 @@ export function GitHubCard({
         <>
           <div className="flex items-center gap-2.5">
             <img
-              src={data.avatar || "/profile.webp"}
+              src={data.avatar || "/profile-480.webp"}
               alt=""
               width={40}
               height={40}
@@ -492,7 +492,7 @@ export function EmailCard({
           <div className="absolute top-2.5 right-3 z-[2] flex items-start gap-0.5">
             <div className="email-envelope-stamp flex h-[3.65rem] w-12 rotate-2 flex-col items-center justify-center border-[3px] border-dotted border-[#f7f4ee] bg-[color-mix(in_oklab,oklch(0.58_0.12_25)_11%,#f7f4ee)] shadow-[0_0_0_1px_color-mix(in_oklab,#1a1814_36%,transparent)] dark:border-[#1c1a17] dark:bg-[color-mix(in_oklab,oklch(0.58_0.12_25)_18%,#1c1a17)] dark:shadow-[0_0_0_1px_color-mix(in_oklab,#ebe6dc_30%,transparent)]">
               <img
-                src="/profile.webp"
+                src="/profile-480.webp"
                 alt=""
                 width={32}
                 height={32}

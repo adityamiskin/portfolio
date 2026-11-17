@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { blogPosts } from "@/lib/blog";
 import { absoluteUrl } from "@/lib/seo";
-import { parseBlogPublishedDate } from "@/lib/utils";
 
 const staticRoutes = [
   { path: "/", changeFrequency: "monthly", priority: 1 },
@@ -30,7 +29,7 @@ function renderSitemap() {
     })),
     ...blogPosts.map((post) => ({
       url: absoluteUrl(`/blog/${post.slug}`),
-      lastModified: parseBlogPublishedDate(post.updatedAt ?? post.publishedAt)?.toISOString(),
+      lastModified: post.updatedAt ?? post.publishedAt,
       changeFrequency: "monthly",
       priority: 0.6,
     })),

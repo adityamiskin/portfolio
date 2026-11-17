@@ -1,63 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
-import { format, isValid, parse, parseISO } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-const BLOG_PARSE_REFERENCE = new Date(2000, 0, 1);
-const BLOG_PARSE_FORMATS = ["MMMM d, yyyy", "MMM d, yyyy", "yyyy-MM-dd"] as const;
-
-function blogDateCandidates(raw: string): string[] {
-  const s = raw.trim();
-  const capFirstWord = s.replace(
-    /^([a-zA-Z]+)/,
-    (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-  );
-  const capWords = s.replace(
-    /\b[a-z]+\b/gi,
-    (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
-  );
-  return [...new Set([s, capFirstWord, capWords])];
-}
-
-/** Parses publishedAt strings from MDX (ISO, “December 25, 2025”, “dec 27, 2025”, etc.). */
-export function parseBlogPublishedDate(raw: string): Date | null {
-  const s = raw.trim();
-
-  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
-    const iso = parseISO(s);
-    if (isValid(iso)) return iso;
-  }
-
-  for (const candidate of blogDateCandidates(raw)) {
-    for (const fmt of BLOG_PARSE_FORMATS) {
-      const d = parse(candidate, fmt, BLOG_PARSE_REFERENCE);
-      if (isValid(d)) return d;
-    }
-  }
-
-  return null;
-}
-
-/** Display date as month day, year (e.g. December 27, 2025). Post pages. */
-export function formatBlogDate(raw: string): string {
-  const d = parseBlogPublishedDate(raw);
-  if (!d || !isValid(d)) return raw.trim();
-  return format(d, "MMMM d, yyyy");
-}
-
-/** Listing: abbreviated lowercase month (e.g. dec 27, 2025). */
-export function formatBlogDateShort(raw: string): string {
-  const d = parseBlogPublishedDate(raw);
-  if (!d || !isValid(d)) return raw.trim().toLowerCase();
-  return format(d, "MMM d, yyyy").toLowerCase();
-}
-
-/** Blog listing rows (abbreviated lowercase date). */
-export function formatDate(raw: string): string {
-  return formatBlogDateShort(raw);
 }
 
 export function getBlogReadingMinutes(content: string): number {

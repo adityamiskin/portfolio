@@ -1,22 +1,18 @@
 import { describe, expect, it } from "vite-plus/test";
-import {
-  formatBlogDate,
-  formatBlogDateShort,
-  getBlogReadingMinutes,
-  getOptimizedCloudinaryUrl,
-  parseBlogPublishedDate,
-} from "@/lib/utils";
+import { formatBlogDate, formatBlogDateShort, toIsoDate } from "@/lib/blog-dates";
+import { getBlogReadingMinutes, getOptimizedCloudinaryUrl } from "@/lib/utils";
 
 describe("blog date utilities", () => {
   it("parses the date formats used by blog frontmatter", () => {
-    expect(parseBlogPublishedDate("December 27, 2025")?.getFullYear()).toBe(2025);
-    expect(parseBlogPublishedDate("dec 27, 2025")?.getMonth()).toBe(11);
-    expect(parseBlogPublishedDate("2025-12-27")?.getDate()).toBe(27);
+    expect(toIsoDate("December 27, 2025")).toBe("2025-12-27");
+    expect(toIsoDate("dec 27, 2025")).toBe("2025-12-27");
+    expect(toIsoDate("2025-12-27")).toBe("2025-12-27");
+    expect(toIsoDate("feb 30, 2025")).toBeNull();
   });
 
   it("formats long and short dates consistently", () => {
     expect(formatBlogDate("2025-12-27")).toBe("December 27, 2025");
-    expect(formatBlogDateShort("December 27, 2025")).toBe("dec 27, 2025");
+    expect(formatBlogDateShort("2025-12-27")).toBe("dec 27, 2025");
   });
 
   it("never reports less than one reading minute", () => {

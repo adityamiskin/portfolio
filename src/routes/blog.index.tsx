@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { TextScramble } from "@/components/text-scramble";
-import { formatBlogDateShort } from "@/lib/utils";
+import { formatBlogDateShort } from "@/lib/blog-dates";
 import { blogPosts } from "@/lib/blog";
 import { pageDescriptions } from "@/lib/seo";
 import { pageHead } from "@/lib/meta";

@@ -1,5 +1,5 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { formatBlogDate, parseBlogPublishedDate } from "@/lib/utils";
+import { formatBlogDate } from "@/lib/blog-dates";
 import { blogPosts } from "@/lib/blog";
 import { getBlogPostComponent } from "@/lib/blog-components";
 import { absoluteUrl, siteName } from "@/lib/seo";
@@ -20,7 +20,6 @@ export const Route = createFileRoute("/blog/$slug")({
       });
     }
 
-    const published = parseBlogPublishedDate(loaderData.publishedAt);
     const head = pageHead({
       title: loaderData.title,
       description: loaderData.description ?? "Aditya Miskin's blog",
@@ -36,7 +35,7 @@ export const Route = createFileRoute("/blog/$slug")({
         ...head.meta,
         {
           property: "article:published_time",
-          content: published?.toISOString() ?? loaderData.publishedAt,
+          content: loaderData.publishedAt,
         },
         { property: "article:author", content: siteName },
       ],
@@ -51,8 +50,6 @@ function Post() {
   const MdxBody = getBlogPostComponent(slug);
   if (!MdxBody) throw notFound();
 
-  const published = parseBlogPublishedDate(post.publishedAt);
-  const publishedTime = published?.toISOString() ?? post.publishedAt;
 
   return (
     <article className="space-y-10 font-body">
@@ -65,8 +62,8 @@ function Post() {
             headline: post.title,
             description: post.description,
             image: post.image ? [post.image] : undefined,
-            datePublished: publishedTime,
-            dateModified: publishedTime,
+            datePublished: post.publishedAt,
+            dateModified: post.publishedAt,
             author: {
               "@type": "Person",
               name: siteName,

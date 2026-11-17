@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { blogPosts } from "@/lib/blog";
-import { formatDate } from "@/lib/utils";
+import { formatBlogDateShort } from "@/lib/blog-dates";
 
 export function BlogSection() {
   const posts = blogPosts.slice(0, 4);
@@ -30,7 +30,7 @@ export function BlogSection() {
             className="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4"
           >
             <span className="text-sm text-muted-foreground sm:w-28 shrink-0 tabular-nums">
-              {formatDate(post.publishedAt)}
+              {formatBlogDateShort(post.publishedAt)}
             </span>
             <span className="text-foreground group-hover:text-brand transition-colors duration-200 lowercase">
               {post.title.toLowerCase()}
